@@ -6,12 +6,31 @@ from sqlalchemy.orm import sessionmaker, Session
 from datetime import datetime
 from contextlib import asynccontextmanager
 
-# Для тестового - возьмем  SQLite
+# Судя по вакансии - вам важна чистота кода, поэтому немного отступил от четкого ТЗ, а именно:
+
+# Добавил для примера простенькие тесты в файл test.py
+# Не использовал сырые SQL-запросы - уязвимость к sql-инъекциям
+# Вот пример через SQL-запросы
+
+# conn = sqlite3.connect('reviews.db')
+# cursor = conn.cursor()
+# cursor.execute('''
+# INSERT INTO reviews (text, sentiment, created_at)
+# VALUES (?, ?, ?)
+# ''', (review.text, sentiment, created_at))
+# review_id = cursor.lastrowid
+# conn.commit()
+# conn.close()
+
+# Так же:
+# По-хорошему - нужно разбить все на несколько файлов, чтобы не смешивать логику разных модулей
+# Что-то в духе: models.py, routes.py, db.py, main.py
+
 DATABASE_URL = "sqlite:///reviews.db"
 engine = create_engine(DATABASE_URL)
 Base = declarative_base()
 
-# Сюда добавляем "хорошие слова" и плохие слова
+# Сюда добавляем "хорошие" слова и "плохие" слова
 POSITIVE_WORDS = ["хорош", "люблю"]
 NEGATIVE_WORDS = ["плохо", "ненавиж"]
 
@@ -36,6 +55,7 @@ class ReviewOut(BaseModel):
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    # Создаем таблицы
     Base.metadata.create_all(bind=engine)
     yield
 
@@ -85,7 +105,6 @@ def get_reviews(db: Session = Depends(get_db), sentiment=""):
         query = db.query(Review)
 
     reviews = query.all()
-
     output_result = [
         ReviewOut(
             id=review.id,
