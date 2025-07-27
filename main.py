@@ -22,7 +22,9 @@ from contextlib import asynccontextmanager
 # conn.commit()
 # conn.close()
 
-# Так же:
+# Так же что я бы еще сделал:
+# Разработка в venv
+# Добавление requirements.txt
 # По-хорошему - нужно разбить все на несколько файлов, чтобы не смешивать логику разных модулей
 # Что-то в духе: models.py, routes.py, db.py, main.py
 

@@ -1,7 +1,0 @@
-Запуск сервиса:
-pip install fastapi uvicorn
-uvicorn main:app --reload
-
-
-Запуск тестов:
-python test.py

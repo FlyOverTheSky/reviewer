@@ -1,3 +1,22 @@
+Сервис отзывов
+Простой сервис для сбора отзывов пользователей, анализа их настроения и хранения в базе данных SQLite с использованием SQLAlchemy.
+Требования
+
+Python 3.x
+FastAPI
+Uvicorn
+SQLAlchemy
+
+Установка
+pip install fastapi uvicorn sqlalchemy
+
+Запуск сервиса
+uvicorn main:app --reload
+
+Запуск тестов
+python test.py
+
+Использование API
 # Пример положительного отзыва
 curl -X POST "http://127.0.0.1:8000/reviews" -H "Content-Type: application/json" -d '{"text": "Я люблю этот продукт"}'
 
